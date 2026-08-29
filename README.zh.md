@@ -76,10 +76,21 @@ DeepSeek Harness 双面插件（dual-face plugin）。三项能力：
 
 ## 安装
 
+脚本安装（自动检查 dsh/pnpm 环境，通过 git 通道安装）：
+
 ```sh
-dsh plugin --profile web add dsh-files
+curl -fsSL https://raw.githubusercontent.com/taxueseek/dsh-files/main/install.sh | sh
 # 重启 dsh web
 ```
+
+手动等价命令（Windows 在 Git Bash 中运行）：
+
+```sh
+dsh plugin --profile web add git+https://github.com/taxueseek/dsh-files.git
+# 重启 dsh web
+```
+
+> npm 上名为 `dsh-files` 的包目前是无关第三方占位包，请勿通过裸 npm 包名安装——只用上面的脚本或 git 命令。
 
 ## 配置
 

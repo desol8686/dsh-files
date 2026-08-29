@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.1
+
+### 新增
+
+- **脚本安装**：仓库根新增 `install.sh`——检查 `dsh` / `pnpm` 环境后通过 git 通道执行 `dsh plugin add git+https://github.com/taxueseek/dsh-files.git`，支持 `--profile` 参数（默认 `web`）。`curl -fsSL https://raw.githubusercontent.com/taxueseek/dsh-files/main/install.sh | sh` 一行完成安装，Windows 在 Git Bash 中运行。
+
+### 修复
+
+- **README 中英版安装指引改为 git 通道**：原指引 `dsh plugin add dsh-files` 走 npm 通道，而 npm 上名为 `dsh-files` 的包（0.0.1，dushaobindoudou 于 2026-08-19 占位，"name reserved"，无任何 `dsh` 字段）是无关第三方包——照旧指引安装会把这个占位包装进 profile。现改为脚本安装 + 手动 git 命令，并加显式警告；双语一致性哈希已同步。
+
 ## 0.4.0
 
 ### 新增

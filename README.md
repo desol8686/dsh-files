@@ -75,10 +75,21 @@ DeepSeek Harness dual-face plugin. Three capabilities:
 
 ## Install
 
+Script install (checks dsh/pnpm, then installs via the git channel):
+
 ```sh
-dsh plugin --profile web add dsh-files
+curl -fsSL https://raw.githubusercontent.com/taxueseek/dsh-files/main/install.sh | sh
 # restart dsh web
 ```
+
+Manual equivalent (Windows: run in Git Bash):
+
+```sh
+dsh plugin --profile web add git+https://github.com/taxueseek/dsh-files.git
+# restart dsh web
+```
+
+> The npm name `dsh-files` is currently held by an unrelated placeholder package — install only via the script or the git command above, never the bare npm name.
 
 ## Configuration
 
