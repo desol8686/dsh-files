@@ -101,7 +101,7 @@ test('xlsx text extraction with row limit', async () => {
   assert.match(limited, /Alice/)
   assert.doesNotMatch(limited, /Bob/)
   assert.match(limited, /### Sheet:/)
-  assert.match(limited, /已截断/)
+  assert.match(limited, /truncated/)
 })
 
 test('utf-8 text decoding', () => {
@@ -156,7 +156,7 @@ async function makeMultiSheetXlsx(): Promise<Uint8Array> {
 
 test('scan-only PDFs are flagged instead of returning empty text', async () => {
   const text = await parsePdf(await makeBlankPdf())
-  assert.match(text, /没有文本层|扫描/)
+  assert.match(text, /no text layer|scan/)
 })
 
 test('xlsx sheet parameter reads a single sheet in full', async () => {

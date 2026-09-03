@@ -65,7 +65,7 @@ export async function parsePdf(bytes: Uint8Array): Promise<string> {
     // 扫描件/纯图片 PDF 没有文本层：返回显式提示而非空串，
     // 防止模型把「无文本」误读成「空文件」。
     if (text.trim() === '' && doc.numPages > 0) {
-      return '\n[此 PDF 没有文本层（可能是扫描件或纯图片文档），read_document 无法提取文字内容]\n'
+      return '\n[This PDF has no text layer (probably a scan or an image-only document), read_document cannot extract text from it]\n'
     }
     return text
   } finally {

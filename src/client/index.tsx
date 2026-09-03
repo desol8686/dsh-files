@@ -144,7 +144,7 @@ function injectCss(): void {
 .dsh-files-error{display:inline-flex;align-items:center;gap:8px;max-width:100%;border:1px solid var(--dsw-alias-border-l2-darkmode-thin,rgba(127,127,127,.22));background:var(--dsw-alias-interactive-bg-hover-danger,rgba(216,97,97,.14));color:var(--dsw-alias-state-error-primary,#d86161);border-radius:10px;padding:6px 8px 6px 10px;font-size:13px}
 .dsh-files-error-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:420px}
 .uV2eYG_chip:has(> .uV2eYG_chipLabel:empty){visibility:hidden}
-body.dsh-files-dragging:after{content:'松开以上传文件或文件夹';position:fixed;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:#fff;background:rgba(0,0,0,.45);z-index:9999;pointer-events:none;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+body.dsh-files-dragging:after{content:'Drop files or folders to upload';position:fixed;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:#fff;background:rgba(0,0,0,.45);z-index:9999;pointer-events:none;text-shadow:0 1px 4px rgba(0,0,0,.5)}
 `
   document.head.appendChild(tag)
 }
@@ -175,11 +175,11 @@ interface ActionContext {
 }
 
 function httpErrorText(status: number): string {
-  if (status === 413) return '文件超过大小限制'
-  if (status === 415) return '文件类型不被允许'
-  if (status === 403) return '上传被服务器拒绝：非本机/受信来源'
-  if (status === 429) return '上传太频繁，请稍后再试'
-  if (status === 507) return '会话存储配额已满，请删除一些文件'
+  if (status === 413) return 'File exceeds the size limit'
+  if (status === 415) return 'File type is not allowed'
+  if (status === 403) return 'Upload rejected by the server: not a loopback or trusted host'
+  if (status === 429) return 'Too many uploads, try again in a moment'
+  if (status === 507) return 'Session storage quota is full, remove some files'
   return `HTTP ${status}`
 }
 
@@ -338,7 +338,7 @@ async function attachFile(actx: ActionContext, file: File, sessionId: string, re
   clearUploadError()
   const inserted = await insertReference(actx, payload.path, '')
   if (!inserted) {
-    setUploadError(`文件已上传但未能加入输入框: ${payload.path}`)
+    setUploadError(`Uploaded, but could not be inserted into the input: ${payload.path}`)
   }
 }
 
@@ -460,13 +460,13 @@ function UploadButton({ attach, scope }: UploadButtonProps) {
   }
   return (
     <>
-      <Tooltip label={busy ? '上传中…' : '上传文件'} side="top">
-        <button type="button" className="dsh-files-btn" aria-label="上传文件" disabled={busy} onClick={pick}>
+      <Tooltip label={busy ? 'Uploading…' : 'Upload files'} side="top">
+        <button type="button" className="dsh-files-btn" aria-label="Upload files" disabled={busy} onClick={pick}>
           <IconPaperclipOutline16 size={14} />
         </button>
       </Tooltip>
-      <Tooltip label={busy ? '上传中…' : '上传文件夹'} side="top">
-        <button type="button" className="dsh-files-btn" aria-label="上传文件夹" disabled={busy} onClick={pickDir}>
+      <Tooltip label={busy ? 'Uploading…' : 'Upload folder'} side="top">
+        <button type="button" className="dsh-files-btn" aria-label="Upload folder" disabled={busy} onClick={pickDir}>
           <IconFolderOpenOutline16 size={14} />
         </button>
       </Tooltip>
@@ -520,7 +520,7 @@ function UploadDock({ useInput, inputActions }: DockProps) {
           <span className="dsh-files-error-text" title={error.text}>
             {error.text}
           </span>
-          <button type="button" className="dsh-files-remove" aria-label="关闭错误提示" onClick={clearUploadError}>
+          <button type="button" className="dsh-files-remove" aria-label="Dismiss error" onClick={clearUploadError}>
             <IconCloseOutline16 size={12} />
           </button>
         </div>
@@ -540,11 +540,11 @@ function UploadDock({ useInput, inputActions }: DockProps) {
             {meta !== undefined && meta.bytes > 0 && (
               <span className="dsh-files-size">{formatBytes(meta.bytes)}</span>
             )}
-            <Tooltip label="移除" side="top">
+            <Tooltip label="Remove" side="top">
               <button
                 type="button"
                 className="dsh-files-remove"
-                aria-label="移除"
+                aria-label="Remove"
                 onClick={() => removeCard(occ.ref, occ.offset)}
               >
                 <IconCloseOutline16 size={12} />
@@ -585,7 +585,7 @@ export function apply(ctx: {
         for (const file of workspace) {
           items.push({
             name: file.name,
-            description: `工作区 · ${file.rel}`,
+            description: `Workspace · ${file.rel}`,
             value: file.rel
           })
         }
