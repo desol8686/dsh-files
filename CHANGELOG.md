@@ -3,15 +3,19 @@
 ## Fork (desol8686/dsh-files)
 
 Fork of [taxueseek/dsh-files](https://github.com/taxueseek/dsh-files), branched
-at `6b761bb` (0.4.1). Code changes are limited to user-facing strings; behaviour
-is unchanged.
+at `6b761bb` (0.4.1). Changes are limited to the composer surface: nothing in
+the upload, parsing or guard logic differs from upstream.
 
-- **English UI strings**: composer tooltips and aria-labels (upload files /
-  upload folder / uploading / remove / dismiss error), the drag-and-drop
-  overlay, upload error messages (413/415/403/429/507 and the
-  "uploaded but not inserted" case) and the `@` workspace candidate label.
+- **English UI strings**: composer tooltip and aria-label (upload files /
+  uploading / remove / dismiss error), the drag-and-drop overlay, upload error
+  messages (413/415/403/429/507 and the "uploaded but not inserted" case) and
+  the `@` workspace candidate label.
 - **English tool output**: the "PDF has no text layer" notice and the XLSX
   sheet header and truncation markers returned by `read_document`.
+- **Dropped the "upload folder" button**: the composer keeps one paperclip.
+  Folder upload itself is untouched — dropping a directory still walks it
+  recursively, and the host still rebuilds the subtree from
+  `x-file-relative-path`.
 - Comments and documentation stay as upstream wrote them, so the fork keeps
   merging cleanly.
 

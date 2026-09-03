@@ -4,7 +4,7 @@
 // always resolve them.
 
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
-import { Tooltip, IconPaperclipOutline16, IconCloseOutline16, IconFolderOpenOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
+import { Tooltip, IconPaperclipOutline16, IconCloseOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
 
 const SOURCE_NAME = 'dsh-files'
 const STYLE_TAG = 'dsh-files/style.css'
@@ -431,46 +431,16 @@ function UploadButton({ attach, scope }: UploadButtonProps) {
     input.click()
   }
 
-  // 文件夹选择：webkitdirectory 的文件选择器只认目录，选中后 input.files
-  // 已是递归展平的相对路径列表（含 webkitRelativePath），走同一上传管线。
-  const pickDir = () => {
-    const input = document.createElement('input')
-    input.type = 'file'
-    input.multiple = true
-    ;(input as HTMLInputElement & { webkitdirectory?: boolean }).webkitdirectory = true
-    input.style.display = 'none'
-    document.body.appendChild(input)
-    inputRef.current = input
-    input.onchange = () => {
-      const files = Array.from(input.files ?? [])
-      input.remove()
-      inputRef.current = null
-      if (files.length === 0) return
-      setBusy(true)
-      void (async () => {
-        try {
-          await scopeRef.current(files)
-        } catch (err) {
-          setUploadError(err instanceof Error ? err.message : String(err))
-        }
-        setBusy(false)
-      })()
-    }
-    input.click()
-  }
+  // Только одна кнопка — выбор файлов. Отдельного пикера папок нет:
+  // папки грузятся перетаскиванием (collectFiles рекурсивно разворачивает
+  // каталоги), а серверная половина по-прежнему принимает
+  // x-file-relative-path и восстанавливает вложенность.
   return (
-    <>
-      <Tooltip label={busy ? 'Uploading…' : 'Upload files'} side="top">
-        <button type="button" className="dsh-files-btn" aria-label="Upload files" disabled={busy} onClick={pick}>
-          <IconPaperclipOutline16 size={14} />
-        </button>
-      </Tooltip>
-      <Tooltip label={busy ? 'Uploading…' : 'Upload folder'} side="top">
-        <button type="button" className="dsh-files-btn" aria-label="Upload folder" disabled={busy} onClick={pickDir}>
-          <IconFolderOpenOutline16 size={14} />
-        </button>
-      </Tooltip>
-    </>
+    <Tooltip label={busy ? 'Uploading…' : 'Upload files'} side="top">
+      <button type="button" className="dsh-files-btn" aria-label="Upload files" disabled={busy} onClick={pick}>
+        <IconPaperclipOutline16 size={14} />
+      </button>
+    </Tooltip>
   )
 }
 
